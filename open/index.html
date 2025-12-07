@@ -6,17 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <script>
-    // 1) 시도: 앱 실행 (커스텀 스킴)
-    // window.location = "waterbottle://open";
-    window.location = "waterbottle://open?d=CFBdG0dYRFBAGFNXTUZfUx5WU1kTWVaPysuG16Wb-vg";
+    function openApp() {
+      const url = new URL(window.location.href);
+      const d = url.searchParams.get("d") || "";
 
-    // 2) 실패 시 Play Store 이동
-    // setTimeout(function() {
-    //   window.location = "https://play.google.com/store/apps/details?id=com.hacoding.waterbottle";
-    // }, 500);
+      // 1) 앱 딥링크 생성
+      const deepLink = `waterbottle://open?d=${encodeURIComponent(d)}`;
+      console.log("Launching deep link:", deepLink);
+
+      // 2) 앱 실행 시도
+      window.location = deepLink;
+
+      // 3) 앱 없을 때 스토어 이동 (옵션)
+      // // ----- iOS Fallback -----
+      // setTimeout(function () {
+      //   // 👉 iOS App Store ID 설정해야 실제로 이동됨
+      //   // window.location = "https://apps.apple.com/app/idYOUR_APP_ID";
+      // }, 1000);
+
+      // ----- Android Fallback -----
+      // setTimeout(function () {
+      //   window.location = "https://play.google.com/store/apps/details?id=com.hacoding.waterbottle";
+      // }, 1000);
+    }
   </script>
 </head>
-<body>
+<body onload="openApp()">
   <p>Opening the app...</p>
 </body>
 </html>
